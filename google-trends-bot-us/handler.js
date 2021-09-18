@@ -21,16 +21,20 @@ module.exports.botus = async () => {
     const res = JSON.parse(responseFormatted);
     // create 3 tweets
     let tweets = [];
+    // if there's 2 sets of trending searches (i.e. on Saturday mornings, there's 2 sets: Friday evening and Saturday morning)
+    // then always take the older trending searches data over the more new (and still developing) trending searches data
+    const reslen = res.default.trendingSearchesDays.length === 1 ? 0 : 1;
     for (let i = 0; i < 3; i++) {
       tweets.push(
         `${i + 1}. ${
-          res.default.trendingSearchesDays[0].trendingSearches[i].title.query
+          res.default.trendingSearchesDays[reslen].trendingSearches[i].title
+            .query
         } - ${
-          res.default.trendingSearchesDays[0].trendingSearches[i]
+          res.default.trendingSearchesDays[reslen].trendingSearches[i]
             .formattedTraffic
         } searches! 🕵️ 🇺🇸 \n\n 📰 Related: ${
-          res.default.trendingSearchesDays[0].trendingSearches[i].articles[0]
-            .url
+          res.default.trendingSearchesDays[reslen].trendingSearches[i]
+            .articles[0].url
         }`
       );
     }
