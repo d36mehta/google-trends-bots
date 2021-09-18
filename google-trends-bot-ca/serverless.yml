@@ -1,0 +1,26 @@
+service: google-trends-bot-ca
+frameworkVersion: "2"
+
+plugins:
+  - serverless-secrets-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: us-west-1
+
+custom:
+  secrets: ${file(secrets.${opt:stage, self:provider.stage}.yml)}
+
+functions:
+  botca:
+    handler: handler.botca
+    environment:
+      CONSUMER_KEY: ${self:custom.secrets.CONSUMER_KEY_CA}
+      CONSUMER_SECRET: ${self:custom.secrets.CONSUMER_SECRET_CA}
+      ACCESS_TOKEN_KEY: ${self:custom.secrets.ACCESS_TOKEN_KEY_CA}
+      ACCESS_TOKEN_SECRET: ${self:custom.secrets.ACCESS_TOKEN_SECRET_CA}
+    events:
+      - schedule: rate(6 hours)
