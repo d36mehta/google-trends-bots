@@ -1,11 +1,11 @@
 # Google Trends Twitter bots
 
-Google Trends Twitter bots to tweet the top three trending searches for multiple countries (so far only Canada) every six hours.
+Google Trends Twitter bots to tweet the top three trending searches for multiple countries every six hours.
 
-Uses AWS Lambda, AWS CloudWatch, and Serverless.
+Uses AWS Lambda and Serverless.
 
-Current twitter bots:
+Current twitter bots (more to be made soon!):
 
-- [Canada](https://twitter.com/GoogleTrends_CA)
-
-![alt text](https://pbs.twimg.com/profile_images/880534343008927744/cRCD7iF7_400x400.jpg)
+- [Canada](https://twitter.com/Trends_in_CA)
+- [United States of America](https://twitter.com/Trends_in_USA)
+- [Argentina](https://twitter.com/Trends_in_AR) (unfortunately, currently suspended on Twitter)
