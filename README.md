@@ -1,6 +1,6 @@
 # Google Trends Twitter bots
 
-Google Trends Twitter bots to tweet the top three trending searches for multiple countries every six hours.
+Google Trends Twitter bots to tweet the top three trending Google searches for multiple countries every six hours.
 
 Uses AWS Lambda and Serverless.
 
