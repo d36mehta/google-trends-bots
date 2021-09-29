@@ -24,7 +24,7 @@ module.exports.botus = async () => {
     // if there's 2 sets of trending searches (i.e. on Saturday mornings, there's 2 sets: Friday evening and Saturday morning)
     // then always take the older trending searches data over the more new (and still developing) trending searches data
     const reslen =
-      res.default.trendingSearchesDays.length === 1 ||
+      res.default.trendingSearchesDays.length === 1 &&
       res.default.trendingSearchesDays[0].length >= 3
         ? 0
         : 1;
