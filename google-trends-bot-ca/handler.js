@@ -21,29 +21,40 @@ module.exports.botca = async () => {
     const res = JSON.parse(responseFormatted);
     // create 3 tweets
     let tweets = [];
-    // if there's 2 sets of trending searches (i.e. on Saturday mornings, there's 2 sets: Friday evening and Saturday morning)
-    // then always take the older trending searches data over the more new (and still developing) trending searches data
-    const reslen =
-      res.default.trendingSearchesDays.length === 1 &&
-      res.default.trendingSearchesDays[0].length >= 3
-        ? 0
-        : 1;
-    for (let i = 0; i < 3; i++) {
-      tweets.push(
-        `${i + 1}. ${
-          res.default.trendingSearchesDays[reslen].trendingSearches[i].title
-            .query
-        } - ${
-          res.default.trendingSearchesDays[reslen].trendingSearches[i]
-            .formattedTraffic
-        } searches! 🕵️ 🇨🇦 \n\n 📰 Related: ${
-          res.default.trendingSearchesDays[reslen].trendingSearches[i]
-            .articles[0].url
-        }`
-      );
+    const numberOfTweets = 3;
+    /* if there's 2 sets of trending searches days (i.e. on Saturday mornings, there's 2 sets: Friday evening and Saturday morning)
+       then always take the older trending searches data if there's not enough new trending searches */
+    let k = 0;
+    let day = 0;
+    let search = 0;
+    while (k <= numberOfTweets) {
+      const check = !!res.default.trendingSearchesDays[day].trendingSearches[
+        search
+      ];
+      if (check) {
+        tweets.push(
+          `${tweets.length + 1}. ${
+            res.default.trendingSearchesDays[day].trendingSearches[search].title
+              .query
+          } - ${
+            res.default.trendingSearchesDays[day].trendingSearches[search]
+              .formattedTraffic
+          } searches! 🕵️ 🇨🇦 \n\n 📰 Related: ${
+            res.default.trendingSearchesDays[day].trendingSearches[search]
+              .articles[0].url
+          }`
+        );
+        search++;
+      } else {
+        // if there isn't enough trend data for the current day, then use the previous day
+        day = 1;
+        search = 0;
+      }
+      k++;
     }
+
     // post the top 3 in reverse order
-    for (let i = 2; i >= 0; i--) {
+    for (let i = tweets.length - 1; i >= 0; i--) {
       console.log("Currently trying to tweet this: " + tweets[i]);
       try {
         await tw.post("statuses/update", { status: tweets[i] });
