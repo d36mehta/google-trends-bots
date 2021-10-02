@@ -24,10 +24,9 @@ module.exports.botus = async () => {
     const numberOfTweets = 3;
     /* if there's 2 sets of trending searches days (i.e. on Saturday mornings, there's 2 sets: Friday evening and Saturday morning)
        then always take the older trending searches data if there's not enough new trending searches */
-    let k = 0;
     let day = 0;
     let search = 0;
-    while (k <= numberOfTweets) {
+    while (tweets.length <= numberOfTweets) {
       const check = !!res.default.trendingSearchesDays[day].trendingSearches[
         search
       ];
@@ -50,7 +49,6 @@ module.exports.botus = async () => {
         day = 1;
         search = 0;
       }
-      k++;
     }
 
     // post the top 3 in reverse order
